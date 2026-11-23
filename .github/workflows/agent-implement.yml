@@ -79,9 +79,12 @@ permissions:
   contents: read # the checkout
 
 # One run per ticket. A second label event on the same issue waits for the
-# first to finish rather than building the same ticket twice at once.
+# first to finish rather than building the same ticket twice at once. Only an
+# `agent:implement` label joins that queue: any other label (the factory's own
+# `agent:in-progress` included) gets a throwaway group, so its skipped run
+# finishes at once instead of waiting behind the real build.
 concurrency:
-  group: agent-implement-${{ github.event.issue.number }}
+  group: ${{ github.event.label.name == 'agent:implement' && format('agent-implement-{0}', github.event.issue.number) || format('ignore-{0}', github.run_id) }}
   cancel-in-progress: false
 
 jobs:
