@@ -5,7 +5,7 @@ import { Button } from "~/components/ui/button";
 import { Card, CardContent } from "~/components/ui/card";
 import { Textarea } from "~/components/ui/textarea";
 import { cn, formatRelativeTime } from "~/lib/utils";
-import { describeNoteDraft } from "~/modules/lesson-note";
+import { describeNoteDraft, type NoteDraftStatus } from "~/modules/lesson-note";
 
 export type LessonNoteData = { body: string; updatedAt: string } | null;
 
@@ -83,7 +83,7 @@ function NoteStatus({
   updatedAt,
 }: {
   error: string | undefined;
-  status: ReturnType<typeof describeNoteDraft>["status"];
+  status: NoteDraftStatus;
   updatedAt: string | undefined;
 }) {
   if (error) return <span className="text-xs text-destructive">{error}</span>;
